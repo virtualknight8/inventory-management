@@ -32,11 +32,13 @@ function displayInventoryData(inventoryData) {
   const headerRow = document.createElement('tr');
   headerRow.innerHTML = `
     <th>ID</th>
-    <th>Name</th>
-    <th>Price</th>
-    <th>Quantity</th>
-    <th>Category</th>
-    <th>Supplier</th>
+    <th>NAME</th>
+    <th>PRICE</th>
+    <th>QUANTITY</th>
+    <th>CATEGORY</th>
+    <th>SUPPLIER</th>
+    <th>DELETE</th>
+    <th>EDIT</th>
   `;
   inventoryTable.appendChild(headerRow);
 
@@ -50,15 +52,17 @@ function displayInventoryData(inventoryData) {
       <td>${item.quantity}</td>
       <td>${item.category}</td>
       <td>${item.supplier}</td>
-      <td><button class="deletebuttons" data-id="${item.id}">Delete</button></td>
+      <td><button class="deletebuttons" data-id="${item.id}"><img class="trash-icons" src="src/icons/delete-outline.svg"</button></td>
+      <td><button class="edit-buttons" onclick="displayUpdateForm()"><img class="edit-buttons-img" src="src/icons/pencil-outline.svg" alt="edit-sign"></button></td>
     `;
     inventoryTable.appendChild(itemRow);
   });
 
   document.querySelectorAll('.deletebuttons').forEach((button)=>{
     button.addEventListener('click', (e)=>{
-      const buttonId = e.target.getAttribute('data-id');
-      deleteInventoryData(buttonId);
+      const buttonId = button.getAttribute('data-id');
+      console.log(buttonId);
+      displayConfirmBox(buttonId);
     })
   })
 }
@@ -130,6 +134,7 @@ document.getElementById('create-item-form').addEventListener('submit', function(
     // Handle the response and update the UI accordingly
     console.log(data);
     fetchInventoryData();
+    insertForm.reset();
   })
   .catch(error => {
     // Handle any errors that occur during the request
@@ -146,8 +151,6 @@ document.getElementById('update-item-form').addEventListener('submit', function(
   // Gather the form data
   const formData = new FormData(this);
   const itemId = formData.get('id');
-  console.table(Object.fromEntries(formData));
-  console.log(itemId);
 
   // Make a PUT request to the backend API to update the item
   fetch(`http://localhost:5000/inventory/${itemId}`, {
@@ -163,6 +166,7 @@ document.getElementById('update-item-form').addEventListener('submit', function(
     console.log(data);
     
     fetchInventoryData();
+    updateForm.reset();
     
   })
   .catch(error => {
@@ -193,3 +197,43 @@ function deleteInventoryData(theItemId){
     console.log('Error deleting inventory item:', error);
   });
 }
+
+const insertForm = document.getElementById('create-item-form');
+const cancelButton = document.getElementById('cancelbutton');
+const updateForm = document.getElementById('update-item-form');
+const confirmBox = document.querySelector('.confirmbox');
+const yesButton = document.getElementById('yesbutton');
+const noButton = document.getElementById('nobutton');
+
+
+function displayInsertForm(){
+  insertForm.style.display='flex';
+}
+
+function hideInsertForm(event){
+  event.preventDefault();
+  insertForm.reset();
+  insertForm.style.display='none';
+}
+
+function displayUpdateForm(){
+  updateForm.style.display='block';
+}
+
+function hideUpdateForm(event){
+  event.preventDefault();
+  updateForm.reset();
+  updateForm.style.display='none';
+}
+
+function displayConfirmBox(passedId){
+  confirmBox.style.display='block';
+  yesButton.addEventListener('click', function() {
+    deleteInventoryData(passedId);
+    confirmBox.style.display='none';
+  }); 
+}
+
+noButton.addEventListener('click', ()=>{
+  confirmBox.style.display='none';
+})

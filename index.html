@@ -10,67 +10,64 @@
 <body>
     <main>
         
-        <!--<div id="inventory-container">
-            <h2>Inventory List</h2>
-            <div id="search-filter-container">
-              <input type="text" id="search-input" placeholder="Search items...">
-              <select id="filter-select">
-                <option value="">All</option>
-                <option value="category">Category</option>
-                <option value="brand">Brand</option>
-            
-              </select>
-            </div>
-            <div id="inventory-items">
-      
-            </div>
-          </div>
-          
-        -->
-        <label for="search-input">Search items:</label>
-        <input type="text" id="search-input" placeholder="name or ID" name="search-input">
-<label for="filter-select">Filter:</label>
-<select id="filter-input" name="filter-select">
-  <option value="All">All</option>
-  <option value="Electronics">Electronics</option>
-  <option value="Clothing">Clothing</option>
-</select>
+        <div class="search-filter-container"><div class="search-wrap">
+          <input type="text" id="search-input" placeholder="Search by name or ID..." name="search-input">
+          <i class="fas fa-search"></i></div>
+        
+          <div class="filter-wrap">
+            <select id="filter-input" name="filter-select">
+              <option value="All">All</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Clothing">Clothing</option>
+            </select></div>
+            <div id="addnew"><button onclick="displayInsertForm()" id="insert-button"><img src="src/icons/plus.svg" alt="plus-icon"></button></div>
+        </div>
+        
+
 
 <table id="inventory-table">
   <!-- Table content will be dynamically generated -->
 </table>
 <!-- Example form for creating a new inventory item -->
-<form id="create-item-form">
-  <input type="text" name="name" placeholder="Item Name" required>
-  <input type="number" name="price" placeholder="Price" required>
-  <input type="number" name="quantity" placeholder="Quantity" required>
-  <input type="text" name="category_id" placeholder="Category ID" required>
-  <input type="text" name="supplier_id" placeholder="Supplier ID" required>
-  <button type="submit">Add Item</button>
+
+  <form id="create-item-form" style="display: none;">
+  <div class="formdivs" id="item-name-div"><label for="name">ITEM NAME</label>
+    <input type="text" name="name"  required></div>
+  <div class="formdivs" id="item-price-div"><label for="price">PRICE</label>
+    <input type="number" name="price"  required></div>
+  <div class="formdivs" id="item-quantity-div"><label for="quantity">QUANTITY</label>
+    <input type="number" name="quantity"  required></div>
+  <div class="formdivs" id="item-category-div"><label for="category_id">CATEGORY ID</label>
+    <input type="text" name="category_id"  required></div>
+  <div class="formdivs" id="item-supplier-div"><label for="supplier_id">SUPPLIER ID</label>
+    <input type="text" name="supplier_id" required></div>
+  <div class="buttondivs"><button id="addbutton" type="submit">Add Item</button>
+    <button id="cancelbutton" onclick="hideInsertForm(event)">Cancel</button></div>
 </form>
 
 
-<form id="update-item-form">
-  <div>
+<form id="update-item-form" style="display: none;">
+  <div class="updatedivs">
     <label for="update-item-id">Item ID:</label>
     <input type="number" id="update-item-id" name="id">
   </div>
-  <div>
+  <div class="updatedivs">
     <label for="update-item-name">Name:</label>
     <input type="text" id="update-item-name" name="name">
   </div>
-  <div>
+  <div class="updatedivs">
     <label for="update-item-price">Price:</label>
     <input type="number" id="update-item-price" name="price">
   </div>
-  <div>
+  <div class="updatedivs">
     <label for="update-item-quantity">Quantity:</label>
     <input type="number" id="update-item-quantity" name="quantity">
   </div>
-  <button type="submit">Update Item</button>
+  <button id="updatebutton" type="submit">Update Item</button>
+  <button id="cancelbutton" onclick="hideUpdateForm(event)">Cancel</button>
 </form>
 
-
+<div class="confirmbox" style="display: none;"><p>Are you sure you want to delete this item?</p><button id="yesbutton">Yes</button><button id="nobutton">No</button></div>
         
     </main>
 </body>
